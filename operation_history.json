@@ -1,0 +1,37 @@
+[
+  {
+    "operation_type": "create_role",
+    "timestamp": "2025-12-19T21:16:22.240943",
+    "success": true,
+    "details": {},
+    "error": null
+  },
+  {
+    "operation_type": "create_role",
+    "timestamp": "2025-12-19T21:16:22.648301",
+    "success": true,
+    "details": {},
+    "error": null
+  },
+  {
+    "operation_type": "create_role",
+    "timestamp": "2025-12-19T21:16:22.750702",
+    "success": true,
+    "details": {},
+    "error": null
+  },
+  {
+    "operation_type": "create_role",
+    "timestamp": "2025-12-19T21:16:22.763541",
+    "success": true,
+    "details": {},
+    "error": null
+  },
+  {
+    "operation_type": "create_role",
+    "timestamp": "2025-12-19T21:16:24.081204",
+    "success": true,
+    "details": {},
+    "error": null
+  }
+]

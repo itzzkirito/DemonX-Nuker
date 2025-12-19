@@ -1,0 +1,679 @@
+2025-12-19 19:01:02,683 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-12-19 19:01:29,489 - discord.client - INFO - logging in using static token
+2025-12-19 19:01:31,182 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 23475fd4e665c4c406d36d481e53b6ff).
+2025-12-19 19:01:33,210 - asyncio - ERROR - Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x000002A9CC03CDD0>, 5240.2478584)])']
+connector: <aiohttp.connector.TCPConnector object at 0x000002A9CC0D1E80>
+2025-12-19 19:49:38,141 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-12-19 19:51:06,634 - discord.client - INFO - logging in using static token
+2025-12-19 19:51:08,541 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 8e688b930e62eb559ea5840284c6894d).
+2025-12-19 19:51:59,156 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 10 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+    asyncio.run(main())
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+    count = int(input(f"{Fore.CYAN}[?] Count per channel: {Style.RESET_ALL}").strip() or "5")
+
+2025-12-19 19:52:09,169 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 20 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+    asyncio.run(main())
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+    count = int(input(f"{Fore.CYAN}[?] Count per channel: {Style.RESET_ALL}").strip() or "5")
+
+2025-12-19 19:52:19,174 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 30 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+    asyncio.run(main())
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+    count = int(input(f"{Fore.CYAN}[?] Count per channel: {Style.RESET_ALL}").strip() or "5")
+
+2025-12-19 19:52:29,183 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 40 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+    asyncio.run(main())
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+    count = int(input(f"{Fore.CYAN}[?] Count per channel: {Style.RESET_ALL}").strip() or "5")
+
+2025-12-19 19:52:39,191 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 50 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+    except KeyboardInterrupt:
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+    await nuker.mass_ping(guild, msg, count)
+
+2025-12-19 19:52:49,206 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 60 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+    except KeyboardInterrupt:
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+    await nuker.mass_ping(guild, msg, count)
+
+2025-12-19 19:52:59,222 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 70 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+    except KeyboardInterrupt:
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+    await nuker.mass_ping(guild, msg, count)
+
+2025-12-19 19:53:09,226 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 80 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+    except KeyboardInterrupt:
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+    await nuker.mass_ping(guild, msg, count)
+
+2025-12-19 19:53:19,238 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 90 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+    except KeyboardInterrupt:
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+    await nuker.mass_ping(guild, msg, count)
+
+2025-12-19 19:53:29,240 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 100 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+    except KeyboardInterrupt:
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+    await nuker.mass_ping(guild, msg, count)
+
+2025-12-19 19:53:39,254 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 110 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+    except KeyboardInterrupt:
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+    await nuker.mass_ping(guild, msg, count)
+
+2025-12-19 19:53:49,271 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 120 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+    except KeyboardInterrupt:
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+    await nuker.mass_ping(guild, msg, count)
+
+2025-12-19 19:53:59,287 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 130 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+    except KeyboardInterrupt:
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+    await nuker.mass_ping(guild, msg, count)
+
+2025-12-19 19:54:09,303 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 140 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+    except KeyboardInterrupt:
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+    await nuker.mass_ping(guild, msg, count)
+
+2025-12-19 19:54:19,320 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 150 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+    print(f"\n{Fore.YELLOW}[!] Interrupted by user")
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+    elif choice == "15":
+
+2025-12-19 19:54:29,330 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 160 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+    print(f"\n{Fore.YELLOW}[!] Interrupted by user")
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+    elif choice == "15":
+
+2025-12-19 19:54:39,336 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 170 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+    print(f"\n{Fore.YELLOW}[!] Interrupted by user")
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+    elif choice == "15":
+
+2025-12-19 19:54:49,351 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 180 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+    print(f"\n{Fore.YELLOW}[!] Interrupted by user")
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+    elif choice == "15":
+
+2025-12-19 19:54:59,365 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 190 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+    print(f"\n{Fore.YELLOW}[!] Interrupted by user")
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+    elif choice == "15":
+
+2025-12-19 19:55:09,385 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 200 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+
+2025-12-19 19:55:19,400 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 210 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+
+2025-12-19 19:55:29,417 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 220 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+
+2025-12-19 19:55:39,425 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 230 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+
+2025-12-19 19:55:49,431 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 240 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+
+2025-12-19 19:55:59,445 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 250 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+
+2025-12-19 19:56:09,461 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 260 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+
+2025-12-19 19:56:19,462 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 270 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+
+2025-12-19 19:56:29,466 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 280 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+
+2025-12-19 19:56:39,475 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 290 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+
+2025-12-19 19:56:49,478 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 300 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+
+2025-12-19 19:56:59,481 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 310 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+
+2025-12-19 19:57:09,483 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 320 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+
+2025-12-19 19:57:19,484 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 330 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+    if not guild:
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+    print(f"{Fore.RED}[!] Invalid choice!")
+
+2025-12-19 19:57:29,497 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 340 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+    if not guild:
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+    print(f"{Fore.RED}[!] Invalid choice!")
+
+2025-12-19 19:57:39,509 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 350 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+    if not guild:
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+    print(f"{Fore.RED}[!] Invalid choice!")
+
+2025-12-19 19:57:49,512 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 360 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+    if not guild:
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+    print(f"{Fore.RED}[!] Invalid choice!")
+
+2025-12-19 19:57:59,519 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 370 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+    if not guild:
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+    print(f"{Fore.RED}[!] Invalid choice!")
+
+2025-12-19 19:58:09,519 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 380 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+    if not guild:
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+    print(f"{Fore.RED}[!] Invalid choice!")
+
+2025-12-19 19:58:19,528 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 390 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+    if not guild:
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+    print(f"{Fore.RED}[!] Invalid choice!")
+
+2025-12-19 19:58:29,541 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 400 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+    if not guild:
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+    print(f"{Fore.RED}[!] Invalid choice!")
+
+2025-12-19 19:58:39,544 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 410 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+    if not guild:
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+    print(f"{Fore.RED}[!] Invalid choice!")
+
+2025-12-19 19:58:49,548 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 420 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+    if not guild:
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+    print(f"{Fore.RED}[!] Invalid choice!")
+
+2025-12-19 19:58:59,553 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 430 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+    if not guild:
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+    print(f"{Fore.RED}[!] Invalid choice!")
+
+2025-12-19 19:59:09,560 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 440 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+    if not guild:
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+    print(f"{Fore.RED}[!] Invalid choice!")
+
+2025-12-19 19:59:19,567 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 450 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+    if not guild:
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+    print(f"{Fore.RED}[!] Invalid choice!")
+
+2025-12-19 19:59:29,576 - discord.gateway - WARNING - Shard ID None heartbeat blocked for more than 460 seconds.
+Loop thread traceback (most recent call last):
+  File "demonx_complete.py", line 1431, in <module>
+    if not guild:
+  File "asyncio\runners.py", line 204, in run
+  File "asyncio\runners.py", line 127, in run
+  File "asyncio\base_events.py", line 706, in run_until_complete
+  File "asyncio\base_events.py", line 677, in run_forever
+  File "asyncio\base_events.py", line 2046, in _run_once
+  File "asyncio\events.py", line 94, in _run
+  File "discord\client.py", line 504, in _run_event
+    await coro(*args, **kwargs)
+  File "demonx_complete.py", line 1327, in on_ready
+    print(f"{Fore.RED}[!] Invalid choice!")
+
+2025-12-19 21:15:53,560 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-12-19 21:15:56,880 - discord.client - INFO - logging in using static token
+2025-12-19 21:15:58,909 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 4c0bee707f572c6a722555fb045fa8c1).
+2025-12-19 22:11:49,534 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-12-19 22:11:49,535 - discord.client - INFO - logging in using static token
+2025-12-19 22:11:51,342 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 721de771404e02e38cfeb38633bc0307).
