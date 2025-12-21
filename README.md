@@ -1,4 +1,4 @@
-# DemonX Nuker - Professional Edition v2.0
+# DemonX Nuker - Professional Edition v2.1
 
 <div align="center">
 
@@ -1214,3 +1214,4 @@ run.bat
 *For educational and testing purposes only*
 
 </div>
+
