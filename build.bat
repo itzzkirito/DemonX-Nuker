@@ -26,15 +26,27 @@ if errorlevel 1 (
     )
 )
 
+REM Check if demonx package exists
+if not exist "demonx" (
+    echo [WARNING] demonx package directory not found!
+    echo [WARNING] The executable may not work correctly without the package.
+    pause
+    exit /b 1
+)
+
 REM Build executable
 echo.
 echo [*] Building DemonX.exe...
 echo [*] Including config.json
+echo [*] Including demonx package
 if exist "proxies.txt" (
     echo [*] Including proxies.txt
 )
 if exist "presets.json" (
     echo [*] Including presets.json
+)
+if exist "operation_queue.json" (
+    echo [*] Including operation_queue.json
 )
 echo.
 
@@ -51,9 +63,18 @@ python -m PyInstaller --onefile --console --name=DemonX ^
     --hidden-import=asyncio ^
     --hidden-import=json ^
     --hidden-import=logging ^
+    --hidden-import=demonx ^
+    --hidden-import=demonx.config ^
+    --hidden-import=demonx.rate_limiter ^
+    --hidden-import=demonx.proxy_manager ^
+    --hidden-import=demonx.history ^
+    --hidden-import=demonx.presets ^
+    --hidden-import=demonx.utils ^
+    --hidden-import=demonx.operation_queue ^
     --collect-all=discord ^
     --collect-all=aiohttp ^
     --collect-all=colorama ^
+    --collect-submodules=demonx ^
     --noconfirm ^
     demonx_complete.py
 

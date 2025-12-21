@@ -9,6 +9,7 @@ import asyncio
 import threading
 import json
 import time
+import queue
 from pathlib import Path
 from demonx_complete import DemonXComplete, OperationType
 import discord
@@ -30,6 +31,11 @@ class DemonXGUI:
         self.bot_running = False
         self.loop = None
         self.loop_thread = None
+        self.loop_ready = threading.Event()  # Signal when loop is ready
+        
+        # Thread-safe queue for async-to-GUI communication
+        self.gui_queue = queue.Queue()
+        self._process_gui_queue()
         
         # Style configuration
         self.setup_styles()
@@ -231,22 +237,25 @@ class DemonXGUI:
     
     def connect_bot(self):
         """Connect to Discord bot"""
-        token = self.bot_token.get().strip()
-        guild_id_str = self.guild_id.get().strip()
+        token_input = self.bot_token.get().strip()
+        guild_id_input = self.guild_id.get().strip()
         
-        if not token:
-            messagebox.showerror("Error", "Bot token is required!")
-            return
-        
-        if not guild_id_str:
-            messagebox.showerror("Error", "Guild ID is required!")
-            return
-        
+        # Validate token using class method
         try:
-            guild_id = int(guild_id_str)
-        except ValueError:
-            messagebox.showerror("Error", "Invalid Guild ID!")
+            token = DemonXComplete.validate_token(token_input)
+        except ValueError as e:
+            messagebox.showerror("Error", f"Invalid Bot Token: {str(e)}")
             return
+        
+        # Validate guild ID using class method
+        try:
+            guild_id = DemonXComplete.validate_guild_id(guild_id_input)
+        except ValueError as e:
+            messagebox.showerror("Error", f"Invalid Guild ID: {str(e)}")
+            return
+        
+        # Reset the ready event
+        self.loop_ready.clear()
         
         # Start async loop in thread
         self.loop_thread = threading.Thread(target=self.run_bot_async, args=(token, guild_id), daemon=True)
@@ -254,58 +263,101 @@ class DemonXGUI:
     
     def run_bot_async(self, token, guild_id):
         """Run bot in async thread"""
-        self.loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(self.loop)
-        
         try:
+            # Create event loop in this thread
+            self.loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(self.loop)
+            
             use_proxy = getattr(self, 'use_proxy', False)
-            self.nuker = DemonXComplete(token, use_proxy, False)
             
-            # Log proxy status
-            if use_proxy and self.nuker.proxy_manager:
-                proxy_count = len(self.nuker.proxy_manager.proxies) if self.nuker.proxy_manager.proxies else 0
-                if proxy_count > 0:
-                    self.root.after(0, lambda: self.log(f"Proxy support: {proxy_count} proxies loaded", '#44aaff'))
-                else:
-                    self.root.after(0, lambda: self.log("Proxy enabled but no proxies found in proxies.txt", '#ffaa44'))
-            
-            @self.nuker.bot.event
-            async def on_ready():
+            # Create everything inside an async function so the loop is running
+            async def setup_and_run_bot():
+                # Now the loop is running, so we can create the bot
+                self.nuker = DemonXComplete(token, use_proxy, False)
+                
+                # Log proxy status
+                if use_proxy and self.nuker.proxy_manager:
+                    proxy_count = len(self.nuker.proxy_manager.proxies) if self.nuker.proxy_manager.proxies else 0
+                    if proxy_count > 0:
+                        self.root.after(0, lambda: self.log(f"Proxy support: {proxy_count} proxies loaded", '#44aaff'))
+                    else:
+                        self.root.after(0, lambda: self.log("Proxy enabled but no proxies found in proxies.txt", '#ffaa44'))
+                
+                @self.nuker.bot.event
+                async def on_ready():
+                    try:
+                        if self.nuker.bot.user:
+                            self.root.after(0, lambda: self.update_status("Connected", '#44ff44'))
+                            self.root.after(0, lambda: self.log(f"Connected as: {self.nuker.bot.user}", '#44ff44'))
+                            self.root.after(0, lambda: self.bot_info_label.config(
+                                text=f"Bot: {self.nuker.bot.user} | Guilds: {len(self.nuker.bot.guilds)}"
+                            ))
+                            
+                            guild = self.nuker.bot.get_guild(guild_id)
+                            if not guild:
+                                self.root.after(0, lambda: messagebox.showerror(
+                                    "Error", "Guild not found! Make sure bot is in the guild."
+                                ))
+                                return
+                            
+                            self.guild = guild
+                            self.root.after(0, lambda: self.log(f"Guild: {guild.name} ({guild.id})", '#44ff44'))
+                            self.root.after(0, lambda: self.log(f"Members: {guild.member_count}", '#44ff44'))
+                            
+                            if not await self.nuker.validate_permissions(guild):
+                                self.root.after(0, lambda: messagebox.showerror(
+                                    "Error", "Bot needs Administrator permissions!"
+                                ))
+                                return
+                            
+                            self.bot_running = True
+                            self.root.after(0, lambda: self.log("Ready to execute operations!", '#44ff44'))
+                    except Exception as e:
+                        self.root.after(0, lambda: self.log(f"Error in on_ready: {e}", '#ff4444'))
+                
+                # Signal that loop is ready
+                self.loop_ready.set()
+                
+                # Start the bot - this will keep running until bot closes
                 try:
-                    if self.nuker.bot.user:
-                        self.root.after(0, lambda: self.update_status("Connected", '#44ff44'))
-                        self.root.after(0, lambda: self.log(f"Connected as: {self.nuker.bot.user}", '#44ff44'))
-                        self.root.after(0, lambda: self.bot_info_label.config(
-                            text=f"Bot: {self.nuker.bot.user} | Guilds: {len(self.nuker.bot.guilds)}"
-                        ))
-                        
-                        guild = self.nuker.bot.get_guild(guild_id)
-                        if not guild:
-                            self.root.after(0, lambda: messagebox.showerror(
-                                "Error", "Guild not found! Make sure bot is in the guild."
-                            ))
-                            return
-                        
-                        self.guild = guild
-                        self.root.after(0, lambda: self.log(f"Guild: {guild.name} ({guild.id})", '#44ff44'))
-                        self.root.after(0, lambda: self.log(f"Members: {guild.member_count}", '#44ff44'))
-                        
-                        if not await self.nuker.validate_permissions(guild):
-                            self.root.after(0, lambda: messagebox.showerror(
-                                "Error", "Bot needs Administrator permissions!"
-                            ))
-                            return
-                        
-                        self.bot_running = True
-                        self.root.after(0, lambda: self.log("Ready to execute operations!", '#44ff44'))
+                    await self.nuker.bot.start(token)
                 except Exception as e:
-                    self.root.after(0, lambda: self.log(f"Error in on_ready: {e}", '#ff4444'))
+                    self.root.after(0, lambda: self.log(f"Bot error: {e}", '#ff4444'))
+                finally:
+                    # Stop the loop when bot closes
+                    self.loop.call_soon_threadsafe(self.loop.stop)
             
-            self.loop.run_until_complete(self.nuker.bot.start(token))
+            # Create task and run loop forever
+            # This ensures the loop is running when we create the bot
+            task = self.loop.create_task(setup_and_run_bot())
+            
+            # Run the loop forever - this keeps it running and accessible from other threads
+            self.loop.run_forever()
         except discord.LoginFailure:
-            self.root.after(0, lambda: messagebox.showerror("Error", "Invalid bot token!"))
+            error_msg = "Invalid bot token. Please check your token from Discord Developer Portal."
+            self.root.after(0, lambda: messagebox.showerror("Authentication Error", error_msg))
+            self.root.after(0, lambda: self.log(f"Authentication Error: {error_msg}", '#ff4444'))
+        except discord.HTTPException as e:
+            if e.status == 401:
+                error_msg = "Invalid bot token. Please verify your token."
+                self.root.after(0, lambda: messagebox.showerror("Authentication Error", error_msg))
+            else:
+                error_msg = f"HTTP Error {e.status}: {str(e)[:100]}"
+                self.root.after(0, lambda: messagebox.showerror("Connection Error", error_msg))
+            self.root.after(0, lambda: self.log(f"Error: {error_msg}", '#ff4444'))
+        except ConnectionError:
+            error_msg = "Connection error. Check your internet connection and try again."
+            self.root.after(0, lambda: messagebox.showerror("Connection Error", error_msg))
+            self.root.after(0, lambda: self.log(f"Connection Error: {error_msg}", '#ff4444'))
         except Exception as e:
-            self.root.after(0, lambda: self.log(f"Error: {e}", '#ff4444'))
+            import traceback
+            error_msg = f"Unexpected error: {str(e)[:100]}"
+            error_trace = traceback.format_exc()
+            self.root.after(0, lambda: messagebox.showerror("Error", error_msg))
+            self.root.after(0, lambda: self.log(f"Error: {error_msg}", '#ff4444'))
+            self.root.after(0, lambda: self.log(f"Traceback: {error_trace}", '#ff4444'))
+            print(f"Error in run_bot_async: {e}")
+            print(traceback.format_exc())
     
     def update_status(self, status, color='#ffffff'):
         """Update status label"""
@@ -318,18 +370,117 @@ class DemonXGUI:
             return False
         return True
     
-    def run_async(self, coro):
-        """Run async function"""
-        if self.loop:
-            def callback(future):
+    def _process_gui_queue(self):
+        """Process GUI update queue (thread-safe)"""
+        try:
+            while True:
                 try:
-                    result = future.result()
-                    self.root.after(0, lambda: self.log("Operation completed!", '#44ff44'))
-                except Exception as e:
-                    self.root.after(0, lambda: self.log(f"Error: {e}", '#ff4444'))
-            
+                    action = self.gui_queue.get_nowait()
+                    if action['type'] == 'log':
+                        self.log(action['message'], action.get('color', '#ffffff'))
+                    elif action['type'] == 'status':
+                        self.update_status(action['status'], action.get('color', '#ffffff'))
+                    elif action['type'] == 'messagebox_error':
+                        messagebox.showerror(action['title'], action['message'])
+                    elif action['type'] == 'messagebox_warning':
+                        messagebox.showwarning(action['title'], action['message'])
+                    elif action['type'] == 'messagebox_info':
+                        messagebox.showinfo(action['title'], action['message'])
+                    elif action['type'] == 'update_label':
+                        action['widget'].config(text=action['text'], **action.get('kwargs', {}))
+                except queue.Empty:
+                    break
+        except Exception as e:
+            # Log error but don't crash
+            print(f"Error processing GUI queue: {e}")
+        finally:
+            # Schedule next check
+            self.root.after(100, self._process_gui_queue)
+    
+    def _safe_gui_update(self, action_type: str, **kwargs):
+        """Thread-safe GUI update using queue"""
+        try:
+            self.gui_queue.put({
+                'type': action_type,
+                **kwargs
+            })
+        except Exception as e:
+            # Fallback to direct update if queue fails
+            print(f"Error queuing GUI update: {e}")
+            if action_type == 'log':
+                self.root.after(0, lambda: self.log(kwargs.get('message', ''), kwargs.get('color', '#ffffff')))
+    
+    def run_async(self, coro):
+        """Run async function with enhanced error handling and thread-safe GUI updates"""
+        if not self.loop:
+            error_msg = "Event loop not initialized. Please connect to bot first."
+            self._safe_gui_update('messagebox_error', title="Error", message=error_msg)
+            self._safe_gui_update('log', message=error_msg, color='#ff4444')
+            return
+        
+        # Wait for loop to be ready (with timeout)
+        if not self.loop_ready.wait(timeout=5.0):
+            error_msg = "Event loop is not ready. Please wait and try again."
+            self._safe_gui_update('messagebox_error', title="Error", message=error_msg)
+            self._safe_gui_update('log', message=error_msg, color='#ff4444')
+            return
+        
+        # Check if bot is connected
+        if not self.bot_running or not self.guild:
+            error_msg = "Bot is not connected. Please wait for connection to complete."
+            self._safe_gui_update('messagebox_warning', title="Warning", message=error_msg)
+            self._safe_gui_update('log', message=error_msg, color='#ffaa44')
+            return
+        
+        def callback(future):
+            try:
+                result = future.result()
+                self._safe_gui_update('log', message="Operation completed!", color='#44ff44')
+            except discord.Forbidden as e:
+                error_msg = "Permission denied. Bot may lack required permissions."
+                self._safe_gui_update('messagebox_error', title="Permission Error", message=error_msg)
+                self._safe_gui_update('log', message=f"Permission Error: {error_msg}", color='#ff4444')
+            except discord.HTTPException as e:
+                if e.status == 429:
+                    error_msg = "Rate limited. Please wait and try again."
+                    self._safe_gui_update('messagebox_warning', title="Rate Limited", message=error_msg)
+                    self._safe_gui_update('log', message=f"Rate Limited: {error_msg}", color='#ffaa44')
+                elif e.status == 404:
+                    error_msg = "Resource not found. The target may have been deleted."
+                    self._safe_gui_update('messagebox_error', title="Not Found", message=error_msg)
+                    self._safe_gui_update('log', message=f"Not Found: {error_msg}", color='#ff4444')
+                else:
+                    error_msg = f"HTTP Error {e.status}: {str(e)[:100]}"
+                    self._safe_gui_update('messagebox_error', title="HTTP Error", message=error_msg)
+                    self._safe_gui_update('log', message=f"HTTP Error: {error_msg}", color='#ff4444')
+            except asyncio.TimeoutError:
+                error_msg = "Operation timed out. The server may be slow or unresponsive."
+                self._safe_gui_update('messagebox_error', title="Timeout", message=error_msg)
+                self._safe_gui_update('log', message=f"Timeout: {error_msg}", color='#ff4444')
+            except ConnectionError:
+                error_msg = "Connection error. Check your internet connection."
+                self._safe_gui_update('messagebox_error', title="Connection Error", message=error_msg)
+                self._safe_gui_update('log', message=f"Connection Error: {error_msg}", color='#ff4444')
+            except Exception as e:
+                error_msg = f"Unexpected error: {str(e)[:100]}"
+                self._safe_gui_update('messagebox_error', title="Error", message=error_msg)
+                self._safe_gui_update('log', message=f"Error: {error_msg}", color='#ff4444')
+        
+        # Try to schedule the coroutine
+        # run_coroutine_threadsafe works even if loop is not running yet (it will queue it)
+        try:
             future = asyncio.run_coroutine_threadsafe(coro, self.loop)
             future.add_done_callback(callback)
+        except RuntimeError as e:
+            error_msg = f"Failed to schedule operation: {str(e)}"
+            if "no running event loop" in str(e).lower() or "no current event loop" in str(e).lower():
+                error_msg = "Event loop is not ready. Please wait a moment and try again."
+            self._safe_gui_update('messagebox_error', title="Error", message=error_msg)
+            self._safe_gui_update('log', message=error_msg, color='#ff4444')
+        except Exception as e:
+            error_msg = f"Unexpected error scheduling operation: {str(e)[:100]}"
+            self._safe_gui_update('messagebox_error', title="Error", message=error_msg)
+            self._safe_gui_update('log', message=error_msg, color='#ff4444')
     
     # Operation methods
     def ban_all(self):
@@ -471,6 +622,19 @@ class DemonXGUI:
             return
         self.log("Fetching all invites...", '#ffff44')
         
+        if not self.loop:
+            error_msg = "Event loop not initialized. Please connect to bot first."
+            messagebox.showerror("Error", error_msg)
+            self.log(error_msg, '#ff4444')
+            return
+        
+        # Wait for loop to be ready
+        if not self.loop_ready.wait(timeout=5.0):
+            error_msg = "Event loop is not ready. Please wait and try again."
+            messagebox.showerror("Error", error_msg)
+            self.log(error_msg, '#ff4444')
+            return
+        
         def callback(future):
             try:
                 invites = future.result()
@@ -509,8 +673,13 @@ class DemonXGUI:
                 self.root.after(0, lambda: self.log(f"Error: {error_msg}", '#ff4444'))
                 self.root.after(0, lambda: messagebox.showerror("Error", f"Failed to fetch invites:\n{error_msg}"))
         
-        future = asyncio.run_coroutine_threadsafe(self.nuker.get_all_invites(self.guild), self.loop)
-        future.add_done_callback(callback)
+        try:
+            future = asyncio.run_coroutine_threadsafe(self.nuker.get_all_invites(self.guild), self.loop)
+            future.add_done_callback(callback)
+        except RuntimeError as e:
+            error_msg = f"Failed to schedule operation: {str(e)}"
+            messagebox.showerror("Error", error_msg)
+            self.log(error_msg, '#ff4444')
     
     def webhook_spam(self):
         if not self.check_connected():
