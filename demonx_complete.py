@@ -1651,10 +1651,19 @@ class DemonXComplete:
         
         print(f"{Fore.YELLOW}[*] Mass pinging...")
         
-        text_channels = guild.text_channels
+        # Get all channels and filter for text channels that bot can send messages to
+        all_channels = guild.channels
+        text_channels = [
+            ch for ch in all_channels 
+            if isinstance(ch, discord.TextChannel) 
+            and ch.permissions_for(guild.me).send_messages
+        ]
+        
         if not text_channels:
-            print(f"{Fore.YELLOW}[*] No text channels found{Style.RESET_ALL}")
+            print(f"{Fore.YELLOW}[*] No accessible text channels found{Style.RESET_ALL}")
             return
+        
+        print(f"{Fore.CYAN}[*] Found {len(text_channels)} accessible text channels{Style.RESET_ALL}")
         
         tasks = []
         for channel in text_channels:
@@ -2128,10 +2137,19 @@ class DemonXComplete:
         """
         print(f"{Fore.YELLOW}[*] Creating webhooks and spamming...")
         
-        text_channels = guild.text_channels
+        # Get all channels and filter for text channels that bot can manage webhooks in
+        all_channels = guild.channels
+        text_channels = [
+            ch for ch in all_channels 
+            if isinstance(ch, discord.TextChannel) 
+            and ch.permissions_for(guild.me).manage_webhooks
+        ]
+        
         if not text_channels:
-            print(f"{Fore.YELLOW}[*] No text channels found{Style.RESET_ALL}")
+            print(f"{Fore.YELLOW}[*] No accessible text channels found (need manage_webhooks permission){Style.RESET_ALL}")
             return
+        
+        print(f"{Fore.CYAN}[*] Found {len(text_channels)} accessible text channels{Style.RESET_ALL}")
         
         tasks = []
         payload = {"content": message}
