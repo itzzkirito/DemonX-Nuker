@@ -518,8 +518,8 @@ class DemonXComplete:
                     # Track rate limit hits
                     with self._metrics_lock:
                         self.rate_limit_hits[endpoint] += 1
-                    # Use exact retry_after without extra delay when possible
-                    await asyncio.sleep(max(Config.DELAY_MINIMAL, rate_limit_info['retry_after']))
+                    # Use exact retry_after - no extra delay for maximum speed
+                    await asyncio.sleep(rate_limit_info['retry_after'])
                     continue
                 elif e.status in [403, 404]:
                     # Non-retryable errors - don't retry
@@ -646,11 +646,12 @@ class DemonXComplete:
     
     async def _batch_process(self, tasks: List[Coroutine], batch_size: int, delay: float, operation_name: str) -> List[Any]:
         """Process tasks in batches with error tracking, progress reporting, and cancellation support
+        OPTIMIZED FOR MAXIMUM SPEED - Overlapping batches for maximum parallelism
         
         Args:
             tasks: List of coroutines to execute
             batch_size: Number of tasks per batch
-            delay: Delay between batches in seconds
+            delay: Delay between batches in seconds (minimized for speed)
             operation_name: Name of operation for logging
         
         Returns:
@@ -667,78 +668,82 @@ class DemonXComplete:
         # Use set for O(1) removal of completed tasks
         completed_task_ids: set = set()
         
+        # OPTIMIZATION: Start multiple batches concurrently for maximum speed
+        max_concurrent_batches = 3  # Process up to 3 batches simultaneously
+        batch_index = 0
+        
         try:
-            for i in range(0, total, batch_size):
-                # Check for cancellation before processing batch
+            # Start initial batches immediately (no waiting)
+            while batch_index < total:
+                # Check for cancellation
                 if self._cancellation_token.is_set():
                     logger.info(f"{operation_name}: Operation cancelled, cleaning up {len(active_tasks)} active tasks")
-                    # Cancel all active tasks
                     for task in active_tasks:
                         if not task.done():
                             task.cancel()
-                    # Wait for cancellation to complete
                     if active_tasks:
                         await asyncio.gather(*active_tasks, return_exceptions=True)
                     break
                 
-                # Clean up completed tasks periodically to prevent memory accumulation
-                if len(active_tasks) > batch_size * 2:
-                    active_tasks = [t for t in active_tasks if not t.done() or id(t) not in completed_task_ids]
-                    completed_task_ids.clear()
+                # Clean up completed tasks periodically
+                active_tasks = [t for t in active_tasks if not t.done()]
                 
-                batch = tasks[i:i + batch_size]
-                # Create tasks for better tracking and cancellation support
-                batch_tasks = [asyncio.create_task(coro) for coro in batch]
-                active_tasks.extend(batch_tasks)
+                # Start new batches up to max_concurrent_batches
+                while len([t for t in active_tasks if not t.done()]) < max_concurrent_batches * batch_size and batch_index < total:
+                    batch = tasks[batch_index:min(batch_index + batch_size, total)]
+                    batch_tasks = [asyncio.create_task(coro) for coro in batch]
+                    active_tasks.extend(batch_tasks)
+                    batch_index += batch_size
                 
-                try:
-                    batch_results = await asyncio.gather(*batch_tasks, return_exceptions=True)
+                # Wait for at least one batch to complete before starting more
+                if active_tasks:
+                    done, pending = await asyncio.wait(active_tasks, return_when=asyncio.FIRST_COMPLETED)
                     
-                    # Track failures and successes
-                    for result in batch_results:
-                        if isinstance(result, asyncio.CancelledError):
+                    # Process completed tasks
+                    for task in done:
+                        try:
+                            result = await task
+                            if isinstance(result, Exception):
+                                logger.error(f"Batch operation failed in {operation_name}: {result}")
+                                errors += 1
+                                self._increment_stat('errors')
+                            else:
+                                results.append(result)
+                                completed += 1
+                        except asyncio.CancelledError:
                             logger.info(f"{operation_name}: Task cancelled")
                             errors += 1
-                        elif isinstance(result, Exception):
-                            logger.error(f"Batch operation failed in {operation_name}: {result}")
+                        except Exception as e:
+                            logger.error(f"Batch operation failed in {operation_name}: {e}")
                             errors += 1
                             self._increment_stat('errors')
-                        else:
-                            results.append(result)
-                            completed += 1
-                except asyncio.CancelledError:
-                    logger.info(f"{operation_name}: Batch cancelled")
-                    # Cancel remaining tasks in batch
-                    for task in batch_tasks:
-                        if not task.done():
-                            task.cancel()
-                    break
+                    
+                    # Update active tasks list
+                    active_tasks = list(pending)
                 
-                # Remove completed tasks from active list (prevent memory accumulation)
-                # Track completed task IDs for efficient cleanup
-                for task in batch_tasks:
-                    if task.done():
-                        completed_task_ids.add(id(task))
-                
-                # Clean up completed tasks periodically
-                active_tasks = [t for t in active_tasks if not (t.done() and id(t) in completed_task_ids)]
-                
-                # Progress reporting (if verbose) with graceful degradation info
+                # Progress reporting (if verbose)
                 if self.verbose and total > batch_size:
                     progress = (completed / total) * 100
                     success_rate = (completed / (completed + errors) * 100) if (completed + errors) > 0 else 0
                     print(f"\r[{operation_name}] Progress: {completed}/{total} ({progress:.1f}%) - Success: {success_rate:.1f}% - Errors: {errors}", 
                           end='', flush=True)
                 
-                # Graceful degradation: Continue processing even with errors
-                # Only stop if cancellation is requested or all tasks failed
-                if errors > 0 and completed == 0 and i > 0:
-                    # If we've processed batches but all failed, warn but continue
-                    logger.warning(f"{operation_name}: High failure rate detected, but continuing...")
-                
-                # Delay between batches (except for last batch)
-                if i + batch_size < total and not self._cancellation_token.is_set():
+                # Minimal delay only if specified (for rate limit sensitive operations)
+                if delay > 0 and batch_index < total:
                     await asyncio.sleep(delay)
+            
+            # Wait for all remaining tasks to complete
+            if active_tasks:
+                remaining_results = await asyncio.gather(*active_tasks, return_exceptions=True)
+                for result in remaining_results:
+                    if isinstance(result, asyncio.CancelledError):
+                        errors += 1
+                    elif isinstance(result, Exception):
+                        errors += 1
+                        self._increment_stat('errors')
+                    else:
+                        results.append(result)
+                        completed += 1
         finally:
             # Cleanup: cancel any remaining active tasks
             if active_tasks:
@@ -830,8 +835,8 @@ class DemonXComplete:
                 total_processed += len(members_to_process)
                 print(f"{Fore.CYAN}[*] Processed {total_processed}/{guild.member_count} members...{Style.RESET_ALL}")
                 
-                # Small delay between chunks to avoid rate limits
-                await asyncio.sleep(Config.DELAY_MEDIUM)
+                # Minimal delay between chunks (only if rate limited)
+                # Removed for maximum speed - rate limiter handles this
             
             print(f"{Fore.GREEN}[+] Completed processing {total_processed} members{Style.RESET_ALL}")
         except Exception as e:
@@ -1473,8 +1478,7 @@ class DemonXComplete:
                     if progress_callback:
                         progress_callback(completed, total)
                     results.extend([r for r in batch_results if not isinstance(r, Exception)])
-                    if i + batch_size < total:
-                        await asyncio.sleep(Config.DELAY_DEFAULT)
+                    # Removed delay for maximum speed
                 return results
             
             await batch_with_progress(tasks, Config.BATCH_SIZE_CHANNELS, Config.DELAY_DEFAULT, "delete_channels")
@@ -1677,7 +1681,7 @@ class DemonXComplete:
                     )
                     if result:
                         self._increment_stat('messages_sent')
-                await asyncio.sleep(Config.DELAY_MINIMAL)
+                # Removed delay for maximum speed
             
             tasks.append(ping_channel(channel))
         
@@ -1860,8 +1864,7 @@ class DemonXComplete:
                     if progress_callback:
                         progress_callback(completed, total)
                     results.extend([r for r in batch_results if not isinstance(r, Exception)])
-                    if i + batch_size < total:
-                        await asyncio.sleep(Config.DELAY_DEFAULT)
+                    # Removed delay for maximum speed
                 return results
             
             await batch_with_progress(tasks, Config.BATCH_SIZE_ROLES, Config.DELAY_ROLE_OPS, "delete_roles")
@@ -2168,7 +2171,7 @@ class DemonXComplete:
                                 async with session.post(webhook_url, json=payload) as resp:
                                     if resp.status == 200:
                                         self._increment_stat('messages_sent')
-                                    await asyncio.sleep(Config.DELAY_MINIMAL)
+                                    # Removed delay for maximum speed
                 except:
                     pass
             
@@ -2226,11 +2229,11 @@ class DemonXComplete:
                         try:
                             # Direct await instead of safe_execute to avoid coroutine reuse
                             await message.add_reaction(emoji)
-                            await asyncio.sleep(Config.DELAY_SHORT)
+                            # Removed delay for maximum speed
                         except discord.HTTPException as e:
                             if e.status == 429:
-                                # Rate limit - wait and continue
-                                await asyncio.sleep(Config.DELAY_MEDIUM)
+                                # Rate limit - minimal wait only when necessary
+                                await asyncio.sleep(0.05)
                             elif e.status in [403, 404]:
                                 # Permission denied or not found - skip
                                 pass
@@ -2274,11 +2277,11 @@ class DemonXComplete:
                         # Direct await instead of safe_execute to avoid coroutine reuse
                         try:
                             await message.add_reaction(emoji)
-                            await asyncio.sleep(Config.DELAY_SHORT)
+                            # Removed delay for maximum speed
                         except discord.HTTPException as e:
                             if e.status == 429:
-                                # Rate limit - wait and continue
-                                await asyncio.sleep(Config.DELAY_MEDIUM)
+                                # Rate limit - minimal wait only when necessary
+                                await asyncio.sleep(0.05)
                             elif e.status in [403, 404]:
                                 # Permission denied or not found - skip
                                 pass
