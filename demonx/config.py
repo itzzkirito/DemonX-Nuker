@@ -14,33 +14,33 @@ class Config:
     HISTORY_BATCH_SIZE = 50
     MAX_HISTORY_FILE_SIZE_MB = 10  # Maximum history file size before rotation
     
-    # Batch Processing Defaults
-    DEFAULT_BATCH_SIZE = 30
-    DEFAULT_DELAY = 0.05
-    BATCH_SIZE_BAN_KICK = 30
-    BATCH_SIZE_CHANNELS = 15
-    BATCH_SIZE_ROLES = 5  # Reduced from 10 - Discord limits role ops to ~5 per 10s
-    BATCH_SIZE_MASS_PING = 20
-    BATCH_SIZE_WEBHOOK = 10
-    BATCH_SIZE_NICKNAME = 25
-    BATCH_SIZE_ROLE_OPS = 5  # Reduced from 20 - match role deletion rate limits
+    # Batch Processing Defaults - OPTIMIZED FOR MAXIMUM SPEED
+    DEFAULT_BATCH_SIZE = 50
+    DEFAULT_DELAY = 0.0  # No delay - maximum speed
+    BATCH_SIZE_BAN_KICK = 50  # Increased from 30 - maximum parallel bans/kicks
+    BATCH_SIZE_CHANNELS = 30  # Increased from 15 - faster channel operations
+    BATCH_SIZE_ROLES = 10  # Increased from 5 - faster role operations
+    BATCH_SIZE_MASS_PING = 50  # Increased from 20 - maximum message throughput
+    BATCH_SIZE_WEBHOOK = 30  # Increased from 10 - faster webhook creation
+    BATCH_SIZE_NICKNAME = 50  # Increased from 25 - faster nickname changes
+    BATCH_SIZE_ROLE_OPS = 10  # Increased from 5 - faster role operations
     
-    # Delays
-    DELAY_MINIMAL = 0.01
-    DELAY_SHORT = 0.02
-    DELAY_DEFAULT = 0.05
-    DELAY_MEDIUM = 0.1
-    DELAY_LONG = 0.2
-    DELAY_ROLE_OPS = 2.0  # 2 seconds between role operation batches to respect rate limits
+    # Delays - MINIMIZED FOR MAXIMUM SPEED
+    DELAY_MINIMAL = 0.0  # No delay
+    DELAY_SHORT = 0.0  # No delay
+    DELAY_DEFAULT = 0.0  # No delay - maximum speed
+    DELAY_MEDIUM = 0.01  # Minimal delay only when absolutely necessary
+    DELAY_LONG = 0.02  # Minimal delay only when absolutely necessary
+    DELAY_ROLE_OPS = 0.1  # Reduced from 2.0 - minimal delay for role operations
     
-    # Retry Configuration
+    # Retry Configuration - OPTIMIZED FOR MAXIMUM SPEED
     MAX_RETRIES = 3
-    MAX_BACKOFF = 5.0
-    RETRY_STRATEGY = "exponential"  # exponential, linear, fixed
-    RETRY_BASE_DELAY = 1.0
+    MAX_BACKOFF = 2.0  # Reduced from 5.0 - faster recovery
+    RETRY_STRATEGY = "linear"  # Changed to linear for faster retries
+    RETRY_BASE_DELAY = 0.5  # Reduced from 1.0 - faster retry attempts
     
-    # Preset Configuration
-    PRESET_DELAY = 0.1
+    # Preset Configuration - OPTIMIZED FOR MAXIMUM SPEED
+    PRESET_DELAY = 0.0  # No delay between preset operations
     
     # Operation Timeout
     DEFAULT_OPERATION_TIMEOUT = 30.0  # 30 seconds default timeout
@@ -61,11 +61,11 @@ class Config:
     LOG_LEVEL = "INFO"  # DEBUG, INFO, WARNING, ERROR
     LOG_FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
     
-    # Connection Pool Configuration
-    CONNECTOR_LIMIT = 100  # Max connections
-    CONNECTOR_LIMIT_PER_HOST = 30  # Per host
-    CONNECTOR_TTL_DNS_CACHE = 300  # DNS cache TTL (5 minutes)
-    CONNECTOR_FORCE_CLOSE = False  # Reuse connections
+    # Connection Pool Configuration - OPTIMIZED FOR MAXIMUM SPEED
+    CONNECTOR_LIMIT = 200  # Increased from 100 - more concurrent connections
+    CONNECTOR_LIMIT_PER_HOST = 100  # Increased from 30 - more per-host connections
+    CONNECTOR_TTL_DNS_CACHE = 600  # Increased from 300 - longer DNS cache (10 minutes)
+    CONNECTOR_FORCE_CLOSE = False  # Reuse connections for better performance
     CONNECTOR_ENABLE_CLEANUP_CLOSED = True  # Clean up closed connections
 
 
