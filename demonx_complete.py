@@ -42,6 +42,14 @@ from demonx import (
     ERROR_MESSAGES
 )
 
+# Import UI enhancer (optional - has fallback)
+try:
+    from demonx.ui_enhancer import create_ui_enhancer
+    UI_ENHANCER_AVAILABLE = True
+except ImportError:
+    UI_ENHANCER_AVAILABLE = False
+    create_ui_enhancer = None
+
 # Import operation queue (optional feature)
 try:
     from demonx.operation_queue import OperationQueue, QueuePriority
@@ -107,7 +115,8 @@ class DemonXComplete:
         'stats_file', '_cancellation_token',  # Statistics and cancellation
         'operation_metrics', 'rate_limit_hits', '_metrics_lock',  # Metrics
         '_batch_size_adjustments', '_last_rate_limit_info',  # Dynamic batch sizing
-        'operation_queue', '_config_last_modified', '_config_watch_enabled'  # Queue and config reload
+        'operation_queue', '_config_last_modified', '_config_watch_enabled',  # Queue and config reload
+        'ui'  # UI enhancer for DemonX-style interface
     )
     
     def __init__(self, token: str, use_proxy: bool = False, dry_run: bool = False, verbose: bool = True):
@@ -153,6 +162,15 @@ class DemonXComplete:
         # Config watcher state
         self._config_last_modified = 0
         self._config_watch_enabled = False
+        
+        # Initialize UI enhancer (optional - falls back to classic UI if not available)
+        self.ui = None
+        if UI_ENHANCER_AVAILABLE:
+            try:
+                self.ui = create_ui_enhancer(use_rich=True, use_figlet=True)
+            except Exception as e:
+                logger.warning(f"UI enhancer initialization failed, using classic UI: {e}")
+                self.ui = None
         
         self._load_statistics()
         
@@ -2822,7 +2840,7 @@ class DemonXComplete:
         print(f"{Fore.CYAN}║{Fore.YELLOW}{Style.BRIGHT}  DemonX Nuker - Credits{Fore.CYAN}{' ' * 45}║")
         print(f"{Fore.CYAN}{'═'*70}{Style.RESET_ALL}")
         print(f"{Fore.WHITE}Author: Kirito / Demon{Style.RESET_ALL}")
-        print(f"{Fore.WHITE}Version: Professional Edition{Style.RESET_ALL}")
+        print(f"{Fore.WHITE}Version: 2.3 - Professional Edition{Style.RESET_ALL}")
         await asyncio.to_thread(input, f"\n{Fore.YELLOW}Press Enter to continue...{Style.RESET_ALL}")
     
     async def _handle_exit(self, guild: discord.Guild) -> None:
@@ -3041,12 +3059,6 @@ class DemonXComplete:
     
     async def _display_menu(self) -> None:
         """Display the main menu interface"""
-        # Clear screen and show menu
-        os.system('cls' if os.name == 'nt' else 'clear')
-        
-        # Print banner
-        print_banner()
-        
         # Menu options in 5 columns - Sequential order
         menu_data = [
             [("[01]", "BAN MEMBERS"), ("[02]", "DELETE CHANNELS"), ("[03]", "KICK MEMBERS"), ("[04]", "PRUNE"), ("[05]", "CREATE CHANNELS")],
@@ -3063,30 +3075,41 @@ class DemonXComplete:
         if QUEUE_AVAILABLE:
             menu_data.append([("[37]", "QUEUE OPS"), ("[38]", "VIEW QUEUE"), ("[39]", "CLEAR QUEUE"), ("", ""), ("", "")])
         
-        # Print menu in columns
-        print()  # Add blank line before menu
-        for row in menu_data:
-            line_items = []
-            for num, text in row:
-                if num and text:
-                    line_items.append(f"{Fore.MAGENTA}{num}{Fore.CYAN} {text}{Style.RESET_ALL}")
+        # Use UI enhancer if available, otherwise use classic UI
+        if self.ui:
+            self.ui.clear_screen()
+            self.ui.print_banner_enhanced("DEMONX")
+            self.ui.display_menu_enhanced(menu_data)
+            # Prompt is handled in _get_user_choice, so no need to print it here
+        else:
+            # Classic UI fallback
+            os.system('cls' if os.name == 'nt' else 'clear')
+            print_banner()
             
-            # Print the line if it has any items
-            if line_items:
-                # Format with proper spacing (22 chars per item)
-                formatted_line = "".join(f"{item:<22}" for item in line_items)
-                print(formatted_line)
-        print()  # Add blank line after menu
-        
-        # Warning message
-        print(f"\n{Fore.MAGENTA}!! NUKERS ARE BREAKING THE SYSTEM FOR PROFIT !!{Style.RESET_ALL}\n")
-        
-        # Get current time for timestamp
-        current_time = time.strftime("%H:%M:%S")
-        
-        # Input prompt
-        print(f"{Fore.WHITE}{current_time}")
-        print(f"{Fore.RED}INP{Style.RESET_ALL} {Fore.WHITE}•{Style.RESET_ALL} {Fore.RED}OPTION{Style.RESET_ALL}")
+            # Print menu in columns
+            print()  # Add blank line before menu
+            for row in menu_data:
+                line_items = []
+                for num, text in row:
+                    if num and text:
+                        line_items.append(f"{Fore.MAGENTA}{num}{Fore.CYAN} {text}{Style.RESET_ALL}")
+                
+                # Print the line if it has any items
+                if line_items:
+                    # Format with proper spacing (22 chars per item)
+                    formatted_line = "".join(f"{item:<22}" for item in line_items)
+                    print(formatted_line)
+            print()  # Add blank line after menu
+            
+            # Warning message - Glow/accent color
+            print(f"\n{Fore.CYAN}{Style.BRIGHT}THEY CALL IT CHAOS. I CALL IT A BUSINESS MODEL.{Style.RESET_ALL}\n")
+            
+            # Get current time for timestamp
+            current_time = time.strftime("%H:%M:%S")
+            
+            # Input prompt
+            print(f"{Fore.WHITE}{current_time}")
+            print(f"{Fore.RED}INP{Style.RESET_ALL} {Fore.WHITE}•{Style.RESET_ALL} {Fore.RED}OPTION{Style.RESET_ALL}")
                 
     async def _get_user_choice(self) -> str:
         """Get user menu choice input
@@ -3094,8 +3117,13 @@ class DemonXComplete:
         Returns:
             User's menu choice as string
         """
-        choice = await asyncio.to_thread(input, f"{Fore.WHITE}>{Style.RESET_ALL} ")
-        return choice.strip()
+        # Use UI enhancer prompt if available
+        if self.ui:
+            choice = await asyncio.to_thread(self.ui.print_prompt_enhanced)
+        else:
+            # Classic prompt fallback
+            choice = await asyncio.to_thread(input, f"{Fore.WHITE}>{Style.RESET_ALL} ")
+        return choice.strip() if choice else ""
     
     async def run_menu(self, guild: discord.Guild) -> None:
         """Run interactive menu in background (non-blocking)
@@ -3181,7 +3209,17 @@ class DemonXComplete:
 
 async def main():
     """Main function"""
-    print_banner()
+    # Initialize UI enhancer for initial banner
+    ui = None
+    if UI_ENHANCER_AVAILABLE:
+        try:
+            ui = create_ui_enhancer(use_rich=True, use_figlet=True)
+            ui.print_banner_enhanced("DEMONX")
+        except Exception:
+            # Fallback to classic banner
+            print_banner()
+    else:
+        print_banner()
     
     # Load and validate config
     config = load_config()

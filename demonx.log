@@ -10307,3 +10307,87 @@ AttributeError: 'Guild' object has no attribute 'available'. Did you mean: 'unav
 2025-12-21 21:27:10,549 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: fde4d3cf25d427ef38b9cd7dc1d93bca).
 2025-12-21 21:27:12,587 - DemonX - INFO - Started queue processor
 2025-12-21 21:27:12,587 - DemonX - INFO - Queue processor started
+2025-12-26 01:01:50,751 - DemonX - INFO - Config version 1.0 detected, current version is 2.0
+2025-12-26 01:01:55,499 - DemonX - INFO - Loaded 60 proxies
+2025-12-26 01:01:55,500 - DemonX - WARNING - Python proxy manager fallback - Rust proxy manager not available
+2025-12-26 01:01:55,500 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-12-26 01:20:46,210 - DemonX - INFO - Config version 1.0 detected, current version is 2.0
+2025-12-26 01:20:51,054 - DemonX - INFO - Loaded 60 proxies
+2025-12-26 01:20:51,055 - DemonX - WARNING - Python proxy manager fallback - Rust proxy manager not available
+2025-12-26 01:20:51,055 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-12-26 01:20:53,572 - discord.ext.commands.bot - WARNING - Privileged message content intent is missing, commands may not work as expected.
+2025-12-26 01:20:53,572 - discord.client - INFO - logging in using static token
+2025-12-26 01:20:55,205 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 37185d80cca80dfd5f04de9a9c672086).
+2025-12-26 01:20:57,245 - DemonX - INFO - Started queue processor
+2025-12-26 01:20:57,246 - DemonX - INFO - Queue processor started
+2025-12-26 01:25:33,188 - DemonX - INFO - Config version 1.0 detected, current version is 2.0
+2025-12-26 01:25:37,308 - DemonX - INFO - Loaded 60 proxies
+2025-12-26 01:25:37,308 - DemonX - ERROR - Error creating nuker: 'DemonXComplete' object has no attribute 'ui' and no __dict__ for setting new attributes
+Traceback (most recent call last):
+  File "demonx_complete.py", line 3257, in main
+    nuker = DemonXComplete(token, use_proxy, dry_run)
+  File "demonx_complete.py", line 166, in __init__
+    self.ui = None
+    ^^^^^^^
+AttributeError: 'DemonXComplete' object has no attribute 'ui' and no __dict__ for setting new attributes
+2025-12-26 01:26:59,102 - DemonX - INFO - Config version 1.0 detected, current version is 2.0
+2025-12-26 01:27:34,978 - DemonX - INFO - Loaded 60 proxies
+2025-12-26 01:27:34,978 - DemonX - ERROR - Error creating nuker: 'DemonXComplete' object has no attribute 'ui' and no __dict__ for setting new attributes
+Traceback (most recent call last):
+  File "demonx_complete.py", line 3257, in main
+    try:
+    
+  File "demonx_complete.py", line 166, in __init__
+    # Initialize UI enhancer (optional - falls back to classic UI if not available)
+AttributeError: 'DemonXComplete' object has no attribute 'ui' and no __dict__ for setting new attributes
+2025-12-26 01:29:26,699 - DemonX - INFO - Config version 1.0 detected, current version is 2.0
+2025-12-26 02:03:08,279 - DemonX - INFO - Config version 1.0 detected, current version is 2.0
+2025-12-26 02:03:13,549 - DemonX - INFO - Config version 1.0 detected, current version is 2.0
+2025-12-26 02:03:19,330 - DemonX - INFO - Loaded 60 proxies
+2025-12-26 02:03:19,331 - DemonX - WARNING - Python proxy manager fallback - Rust proxy manager not available
+2025-12-26 02:03:19,331 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-12-26 02:03:23,359 - discord.ext.commands.bot - WARNING - Privileged message content intent is missing, commands may not work as expected.
+2025-12-26 02:03:23,360 - discord.client - INFO - logging in using static token
+2025-12-26 02:03:25,305 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: a600eec8f17bc6d753e43ac95187eea2).
+2025-12-26 02:03:27,358 - DemonX - INFO - Started queue processor
+2025-12-26 02:03:27,358 - DemonX - INFO - Queue processor started
+2025-12-26 02:06:33,661 - DemonX - INFO - Config version 1.0 detected, current version is 2.0
+2025-12-26 02:06:39,392 - DemonX - INFO - Loaded 60 proxies
+2025-12-26 02:06:39,392 - DemonX - WARNING - Python proxy manager fallback - Rust proxy manager not available
+2025-12-26 02:06:39,393 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-12-26 02:06:43,677 - discord.ext.commands.bot - WARNING - Privileged message content intent is missing, commands may not work as expected.
+2025-12-26 02:06:43,677 - discord.client - INFO - logging in using static token
+2025-12-26 02:06:48,366 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 524f9a90a112161e77fde743d0a50030).
+2025-12-26 02:06:50,407 - DemonX - INFO - Started queue processor
+2025-12-26 02:06:50,407 - DemonX - INFO - Queue processor started
+2025-12-26 02:11:39,231 - DemonX - INFO - Config version 1.0 detected, current version is 2.0
+2025-12-26 02:11:50,773 - DemonX - INFO - Loaded 60 proxies
+2025-12-26 02:11:50,773 - DemonX - WARNING - Python proxy manager fallback - Rust proxy manager not available
+2025-12-26 02:11:50,774 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-12-26 02:11:54,977 - discord.ext.commands.bot - WARNING - Privileged message content intent is missing, commands may not work as expected.
+2025-12-26 02:11:54,977 - discord.client - INFO - logging in using static token
+2025-12-26 02:11:56,615 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: af0e64504f0a3d7d5e011877c1b3dc74).
+2025-12-26 02:11:58,644 - DemonX - INFO - Started queue processor
+2025-12-26 02:11:58,645 - DemonX - INFO - Queue processor started
+2025-12-26 02:13:39,625 - DemonX - INFO - Config version 1.0 detected, current version is 2.0
+2025-12-26 02:13:45,283 - DemonX - INFO - Loaded 60 proxies
+2025-12-26 02:13:45,283 - DemonX - WARNING - Python proxy manager fallback - Rust proxy manager not available
+2025-12-26 02:13:45,284 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-12-26 02:13:50,776 - discord.ext.commands.bot - WARNING - Privileged message content intent is missing, commands may not work as expected.
+2025-12-26 02:13:50,777 - discord.client - INFO - logging in using static token
+2025-12-26 02:13:52,500 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: d683416ff7c0c9f578cb7e75b91c36a7).
+2025-12-26 02:13:54,647 - DemonX - INFO - Started queue processor
+2025-12-26 02:13:54,648 - DemonX - INFO - Queue processor started
+2025-12-26 02:15:49,195 - DemonX - INFO - Config version 1.0 detected, current version is 2.0
+2025-12-26 02:15:55,545 - DemonX - INFO - Loaded 60 proxies
+2025-12-26 02:15:55,546 - DemonX - WARNING - Python proxy manager fallback - Rust proxy manager not available
+2025-12-26 02:15:55,546 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-12-26 02:16:00,231 - discord.ext.commands.bot - WARNING - Privileged message content intent is missing, commands may not work as expected.
+2025-12-26 02:16:00,231 - discord.client - INFO - logging in using static token
+2025-12-26 02:16:02,020 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 35ac5843d2f8d6606fb5845c50243522).
+2025-12-26 02:16:04,086 - DemonX - INFO - Started queue processor
+2025-12-26 02:16:04,086 - DemonX - INFO - Queue processor started
+2025-12-26 02:18:22,778 - DemonX - INFO - Config version 1.0 detected, current version is 2.0
+2025-12-26 02:23:37,404 - DemonX - INFO - Config version 1.0 detected, current version is 2.0
+2025-12-26 02:24:24,174 - DemonX - INFO - Config version 1.0 detected, current version is 2.3
+2025-12-26 02:24:31,830 - DemonX - INFO - Config version 1.0 detected, current version is 2.3

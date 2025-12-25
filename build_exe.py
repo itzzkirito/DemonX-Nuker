@@ -89,6 +89,14 @@ def build_exe():
         "--hidden-import=demonx.presets",
         "--hidden-import=demonx.utils",
         "--hidden-import=demonx.operation_queue",
+        "--hidden-import=demonx.ui_enhancer",
+        # Optional UI enhancements (with fallback)
+        "--hidden-import=rich",
+        "--hidden-import=rich.console",
+        "--hidden-import=rich.text",
+        "--hidden-import=rich.align",
+        "--hidden-import=rich.panel",
+        "--hidden-import=pyfiglet",
     ])
     
     # Collect all dependencies

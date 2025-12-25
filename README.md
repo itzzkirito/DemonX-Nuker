@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Version](https://img.shields.io/badge/version-2.0-blue.svg)
+![Version](https://img.shields.io/badge/version-2.3-blue.svg)
 ![Python](https://img.shields.io/badge/python-3.8%2B-blue.svg)
 ![License](https://img.shields.io/badge/license-Educational-red.svg)
 ![Status](https://img.shields.io/badge/status-Production%20Ready-green.svg)
@@ -191,7 +191,7 @@ Create or edit `config.json` in the project root:
     "proxy": false,
     "dry_run": false,
     "verbose": true,
-    "version": "2.0"
+    "version": "2.3"
 }
 ```
 
@@ -369,7 +369,7 @@ Main configuration file located in the project root:
     "proxy": false,
     "dry_run": false,
     "verbose": true,
-    "version": "2.0"
+    "version": "2.3"
 }
 ```
 
@@ -380,7 +380,7 @@ Main configuration file located in the project root:
 | `proxy` | boolean | `false` | Enable proxy support (requires `proxies.txt`) |
 | `dry_run` | boolean | `false` | Test mode - operations logged but not executed |
 | `verbose` | boolean | `true` | Enable verbose output and detailed logging |
-| `version` | string | `"2.0"` | Configuration file version (for migration) |
+| `version` | string | `"2.3"` | Configuration file version (for migration) |
 
 **Hot Reload:** Changes to `config.json` are automatically detected and applied without restarting the application.
 
@@ -1022,7 +1022,7 @@ Get-Content demonx.log -Tail 50  # Windows PowerShell
 **Kirito / Demon**
 
 ### Version
-**v2.0 - Complete Professional Edition**
+**v2.3 - Complete Professional Edition**
 
 ### Built With
 - **discord.py** - Discord API wrapper
@@ -1060,7 +1060,7 @@ When reporting issues, please include:
 
 ## 📈 Changelog
 
-### Version 2.0 (Current) - Complete Professional Edition
+### Version 2.3 (Current) - Complete Professional Edition
 
 #### Major Features
 - ✅ Complete codebase optimization and refactoring
@@ -1208,7 +1208,7 @@ run.bat
 
 <div align="center">
 
-**DemonX Nuker v2.0** - Complete Professional Edition
+**DemonX Nuker v2.3** - Complete Professional Edition
 
 *Built with ❤️ for the community*
 
