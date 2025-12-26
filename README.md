@@ -19,20 +19,19 @@
 ![WhatsApp_Image_2025-12-25_at_4 42 45_PM_upscaled](https://github.com/user-attachments/assets/14f7aa96-724d-470c-ba88-56b797ee326e)
 
 
-
 ## 📋 Table of Contents
 
 - [Overview](#-overview)
-- [Key Features](#-key-features)
+- [Features](#-features)
 - [Installation](#-installation)
 - [Quick Start](#-quick-start)
 - [Usage Guide](#-usage-guide)
 - [Configuration](#-configuration)
 - [Operation Reference](#-operation-reference)
 - [Advanced Features](#-advanced-features)
+- [Architecture](#-architecture)
 - [Building Executable](#-building-executable)
 - [GUI Version](#-gui-version)
-- [Architecture](#-architecture)
 - [Performance](#-performance)
 - [Safety & Disclaimer](#-safety--disclaimer)
 - [Troubleshooting](#-troubleshooting)
@@ -63,7 +62,7 @@ DemonX Nuker is a comprehensive, professional-grade Discord server management to
 
 ---
 
-## ✨ Key Features
+## ✨ Features
 
 ### 🎮 Core Capabilities
 
@@ -169,6 +168,10 @@ pip install -r requirements.txt
 - `colorama==0.4.6` - Terminal colors for CLI
 - `httpx==0.25.0` - HTTP client library
 - `pyinstaller==5.13.0` - Executable builder (optional, for building .exe)
+
+**Optional UI Dependencies:**
+- `rich>=13.0.0` - Enhanced terminal UI (optional)
+- `pyfiglet>=0.8.0` - ASCII art banners (optional)
 
 ### Step 3: Optional Rust Components
 
@@ -594,6 +597,104 @@ Create and execute complex operation sequences:
 
 ---
 
+## 🏗️ Architecture
+
+### Code Structure
+
+```
+DemonX-Nuker/
+├── demonx_complete.py          # Main CLI application
+├── demonx_gui.py               # GUI application
+├── demonx/                      # Modular package
+│   ├── __init__.py            # Package initialization
+│   ├── config.py              # Configuration constants
+│   ├── rate_limiter.py        # Rate limiting system
+│   ├── proxy_manager.py       # Proxy management
+│   ├── history.py             # Operation history tracking
+│   ├── presets.py             # Preset management
+│   ├── utils.py               # Utility functions
+│   ├── operation_queue.py     # Operation queue system
+│   ├── ui_enhancer.py         # UI enhancement system
+│   ├── core/                  # Core components
+│   │   ├── exceptions.py      # Custom exceptions
+│   │   └── __init__.py
+│   └── operations/            # Operation framework
+│       ├── base.py            # Base operation classes
+│       ├── factory.py         # Operation factory
+│       └── __init__.py
+├── src/                        # Rust components (optional)
+│   ├── lib.rs                 # Rust library entry
+│   ├── discord_client.rs       # Discord client
+│   ├── proxy_manager.rs        # Proxy manager
+│   └── rate_limiter.rs         # Rate limiter
+├── tests/                      # Unit tests
+│   ├── test_*.py              # Test files
+│   └── conftest.py            # Test configuration
+├── config.json                 # Configuration file
+├── presets.json                # Operation presets
+├── operation_queue.json        # Operation queue (auto-generated)
+├── operation_history.json      # Operation history (auto-generated)
+├── demonx.log                  # Application logs
+├── requirements.txt            # Python dependencies
+├── requirements-dev.txt        # Development dependencies
+├── build_exe.py                # Python build script
+├── build.bat                   # Windows build script
+├── run.bat                     # Launcher script
+├── run_gui.bat                 # GUI launcher
+└── README.md                   # This file
+```
+
+### Key Classes
+
+#### DemonXComplete
+- Main bot class with all operations
+- Handles connection, rate limiting, and error recovery
+- Manages statistics and operation history
+- Implements operation queue and config hot reload
+
+#### OperationHistory
+- Tracks all operations with timestamps
+- Batched file saves for performance (98% I/O reduction)
+- Statistics calculation
+- Auto-compression of old history
+
+#### PresetManager
+- Loads and saves operation presets
+- JSON-based preset storage
+- Preset validation
+
+#### RateLimiter
+- Per-endpoint rate limit tracking
+- Global rate limit handling
+- Automatic retry coordination
+- Dynamic batch sizing
+
+#### OperationQueue
+- Priority-based operation queue
+- Queue persistence
+- Scheduled execution support
+- Background processing
+
+#### ProxyManager
+- Proxy loading and validation
+- Proxy rotation
+- Health checking
+- Format: `IP:PORT:USERNAME:PASSWORD`
+
+### Technical Stack
+
+- **Language:** Python 3.8+
+- **Framework:** discord.py 2.3.2+
+- **Async:** Full async/await implementation
+- **HTTP:** aiohttp 3.9.0 with connection pooling
+- **Rate Limiting:** Custom per-endpoint rate limiter
+- **GUI:** tkinter (Python standard library)
+- **Logging:** Rotating file handlers with compression
+- **Build:** PyInstaller 5.13.0+
+- **Optional:** Rust components for performance-critical operations
+
+---
+
 ## 🔨 Building Executable
 
 ### Automatic Build (Recommended)
@@ -710,98 +811,6 @@ run_gui.bat  # Windows
 3. **View Statistics**
    - Click "Statistics" button
    - View operation counts and success rates
-
----
-
-## 🏗️ Architecture
-
-### Code Structure
-
-```
-DemonX-Nuker/
-├── demonx_complete.py          # Main CLI application
-├── demonx_gui.py               # GUI application
-├── demonx/                      # Modular package
-│   ├── __init__.py            # Package initialization
-│   ├── config.py              # Configuration constants
-│   ├── rate_limiter.py        # Rate limiting system
-│   ├── proxy_manager.py       # Proxy management
-│   ├── history.py             # Operation history tracking
-│   ├── presets.py             # Preset management
-│   ├── utils.py               # Utility functions
-│   ├── operation_queue.py     # Operation queue system
-│   ├── core/                  # Core components
-│   │   ├── exceptions.py      # Custom exceptions
-│   │   └── __init__.py
-│   └── operations/            # Operation framework
-│       ├── base.py            # Base operation classes
-│       ├── factory.py         # Operation factory
-│       └── __init__.py
-├── src/                        # Rust components (optional)
-│   ├── lib.rs                 # Rust library entry
-│   ├── discord_client.rs       # Discord client
-│   ├── proxy_manager.rs        # Proxy manager
-│   └── rate_limiter.rs         # Rate limiter
-├── config.json                 # Configuration file
-├── presets.json                # Operation presets
-├── operation_queue.json        # Operation queue (auto-generated)
-├── operation_history.json      # Operation history (auto-generated)
-├── demonx.log                  # Application logs
-├── requirements.txt            # Python dependencies
-├── build_exe.py                # Build script
-├── build.bat                   # Windows build script
-├── run.bat                     # Launcher script
-└── README.md                   # This file
-```
-
-### Key Classes
-
-#### DemonXComplete
-- Main bot class with all operations
-- Handles connection, rate limiting, and error recovery
-- Manages statistics and operation history
-- Implements operation queue and config hot reload
-
-#### OperationHistory
-- Tracks all operations with timestamps
-- Batched file saves for performance (98% I/O reduction)
-- Statistics calculation
-- Auto-compression of old history
-
-#### PresetManager
-- Loads and saves operation presets
-- JSON-based preset storage
-- Preset validation
-
-#### RateLimiter
-- Per-endpoint rate limit tracking
-- Global rate limit handling
-- Automatic retry coordination
-- Dynamic batch sizing
-
-#### OperationQueue
-- Priority-based operation queue
-- Queue persistence
-- Scheduled execution support
-- Background processing
-
-#### ProxyManager
-- Proxy loading and validation
-- Proxy rotation
-- Health checking
-- Format: `IP:PORT:USERNAME:PASSWORD`
-
-### Technical Stack
-
-- **Language:** Python 3.8+
-- **Framework:** discord.py 2.3.2+
-- **Async:** Full async/await implementation
-- **HTTP:** aiohttp 3.9.0 with connection pooling
-- **Rate Limiting:** Custom per-endpoint rate limiter
-- **GUI:** tkinter (Python standard library)
-- **Logging:** Rotating file handlers with compression
-- **Build:** PyInstaller 5.13.0+
-- **Optional:** Rust components for performance-critical operations
 
 ---
 
@@ -1079,6 +1088,7 @@ When reporting issues, please include:
 - ✅ Operation validation before execution
 - ✅ Graceful degradation on partial failures
 - ✅ Optional Rust components for performance
+- ✅ Enhanced UI with Rich library support
 
 #### Performance Improvements
 - ✅ 98% reduction in file I/O operations
@@ -1095,6 +1105,8 @@ When reporting issues, please include:
 - ✅ Error handling standardization
 
 ### Previous Versions
+- **v2.1** - Major performance improvements, operation queue, preset system
+- **v2.0** - Complete Professional Edition foundation
 - **v1.0** - Initial release with basic features
 
 ---
@@ -1130,6 +1142,7 @@ DemonX-Nuker/
 │   ├── presets.py             # Preset management
 │   ├── utils.py               # Utility functions
 │   ├── operation_queue.py     # Operation queue
+│   ├── ui_enhancer.py         # UI enhancement system
 │   ├── core/                  # Core components
 │   │   ├── exceptions.py      # Custom exceptions
 │   │   └── __init__.py
@@ -1141,7 +1154,7 @@ DemonX-Nuker/
 │   ├── lib.rs                 # Rust library entry
 │   ├── discord_client.rs       # Discord client
 │   ├── proxy_manager.rs        # Proxy manager
-│   └── rate_limiter.rs         # Rate limiter
+│   └── rate_limiter.rs        # Rate limiter
 ├── tests/                     # Unit tests
 │   ├── test_*.py             # Test files
 │   └── conftest.py           # Test configuration
@@ -1217,7 +1230,3 @@ run.bat
 *For educational and testing purposes only*
 
 </div>
-
-
-
-
